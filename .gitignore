@@ -1,0 +1,30 @@
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+
+# Node
+node_modules/
+.next/
+.turbo/
+.vercel/
+
+# Tooling
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.cache/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

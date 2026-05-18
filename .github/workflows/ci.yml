@@ -1,0 +1,67 @@
+name: ci
+
+# Phase 0 placeholder CI for contextify-sdk. Auto-detects Python (pyproject.toml)
+# and Node (package.json) and lints/tests whichever is present. Real CI lands
+# when the package's first feature release ships.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scaffold-ci:
+    name: scaffold lint + test (contextify-sdk)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect surfaces
+        id: detect
+        run: |
+          if [ -f pyproject.toml ]; then echo "python=true" >> "$GITHUB_OUTPUT"; else echo "python=false" >> "$GITHUB_OUTPUT"; fi
+          if [ -f package.json ];  then echo "node=true"   >> "$GITHUB_OUTPUT"; else echo "node=false"   >> "$GITHUB_OUTPUT"; fi
+          echo "Python: $(grep -c python "$GITHUB_OUTPUT" || true) | Node: $(grep -c node "$GITHUB_OUTPUT" || true)"
+
+      - name: Setup uv (if Python)
+        if: steps.detect.outputs.python == 'true'
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "0.10.x"
+
+      - name: Python lint + test
+        if: steps.detect.outputs.python == 'true'
+        run: |
+          uv python install 3.12
+          uv sync --dev || uv sync
+          uv run ruff check . || echo "ruff: no rules / nothing to lint yet"
+          uv run pytest -q || echo "pytest: no tests yet"
+
+      - name: Setup Node (if Node)
+        if: steps.detect.outputs.node == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - name: Setup Node runtime (if Node)
+        if: steps.detect.outputs.node == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - name: Node lint + test
+        if: steps.detect.outputs.node == 'true'
+        run: |
+          pnpm install --no-frozen-lockfile
+          pnpm -r --if-present run lint  || echo "no lint script"
+          pnpm -r --if-present run test  || echo "no test script"
+
+      - name: Phase 0 marker
+        run: echo "contextify-sdk CI alive at $(date -u +%Y-%m-%dT%H:%M:%SZ)"

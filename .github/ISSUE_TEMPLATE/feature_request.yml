@@ -1,0 +1,29 @@
+name: Feature request
+description: Propose a feature for contextify-sdk.
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Open an issue with a clear problem statement and one concrete proposal.
+        Larger ideas may need a design discussion before a PR.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user/dev pain does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: One paragraph; what would land?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: At least one alternative and why this one is better.

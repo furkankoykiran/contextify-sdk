@@ -1,0 +1,16 @@
+name: release
+
+# Phase 0 placeholder for contextify-sdk. Real release pipeline lands when the
+# package's first feature release ships.
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  noop:
+    name: release placeholder
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "contextify-sdk release placeholder; wires up in a later phase"

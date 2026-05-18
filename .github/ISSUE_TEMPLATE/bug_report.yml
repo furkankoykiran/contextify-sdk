@@ -1,0 +1,28 @@
+name: Bug report
+description: Something in contextify-sdk is broken and reproducible.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing. A small reproduction beats a long paragraph.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: One sentence summary plus a reproduction.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: OS, runtime versions, contextify-sdk version (commit SHA if installed from source).
