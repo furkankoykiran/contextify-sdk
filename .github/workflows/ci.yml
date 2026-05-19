@@ -45,7 +45,7 @@ jobs:
 
       - name: Setup Node (if Node)
         if: steps.detect.outputs.node == 'true'
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           version: 9.15.0
 
