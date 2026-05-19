@@ -20,7 +20,7 @@ jobs:
     name: scaffold lint + test (contextify-sdk)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Detect surfaces
         id: detect
